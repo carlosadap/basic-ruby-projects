@@ -2,7 +2,7 @@ def substrings(string, array)
 
   array.reduce(Hash.new(0)) do |hash, word|
     if string.downcase.include?(word)
-      hash[word] += 1
+      hash[word] += string.downcase.scan(word).length
       hash
     else
       hash
