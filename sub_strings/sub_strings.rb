@@ -1,14 +1,15 @@
 def substrings(string, array)
-  words = string.split(" ")
-  substrings_hash = Hash.new(0)
 
-  array.each do |word|
-    if string.include?(word)
-      substrings_hash[word] += 1
+  array.reduce(Hash.new(0)) do |hash, word|
+    if string.downcase.include?(word)
+      hash[word] += 1
+      hash
+    else
+      hash
     end
   end
 
-  substrings_hash
+  # hash
 end
 
   dictionary = ["below","down","go","going","horn","how","howdy","it","i","low","own","part","partner","sit"]
