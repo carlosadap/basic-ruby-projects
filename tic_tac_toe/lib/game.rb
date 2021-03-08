@@ -2,24 +2,53 @@ require_relative 'player.rb'
 require_relative 'board.rb'
 
 class Game
-  attr_reader :players, :symbols, :board
+  attr_reader :players, :symbols, :board, :n_players
 
   def initialize(length, n_players = 2)
     @players = []
+    @n_players = n_players
+    @current_player
     @board = Board.new(length)
+    @game_on = false
   end
 
-  def create_player(name, symbol)
-    if is_valid_symbol?(symbol.to_sym)
+  def create_player
+    puts "What is the name of the player?"
+    name = gets.chomp
+    puts "What the symbol of the player?"
+    symbol = gets.chomp.to_sym
+    if is_valid_symbol?(symbol)
       new_player = Player.new(name, symbol.to_sym)
-      players << new_player
+      @players << new_player
       puts "The player #{name} with the symbol #{symbol} was created"
     else
-      puts "The player #{name} with the symbol #{symbol} was not created because the symbol #{symbol} already exists"
+      puts "The player #{name} with the symbol #{symbol} was not created because the symbol #{symbol} already exists, try another symbol"
     end
   end
 
   def is_valid_symbol?(check_symbol)
     players.none? { |player| player.symbol == check_symbol }
+  end
+
+  def player_creation
+    until @players.length == n_players
+      create_player
+    end
+  end
+
+  def play_turn
+
+  end
+
+  def run
+    player_creation
+    @current_player = @players.sample
+    @game_on = true
+    while game_on?
+      play_turn
+      if win?
+        @game_on = false
+      end
+    end
   end
 end
