@@ -10,6 +10,10 @@ class Board
     grid[row][col] == :-
   end
 
+  def size
+    @grid.length
+  end
+
   def display
     print "-------------\n"
     grid.each do |col|

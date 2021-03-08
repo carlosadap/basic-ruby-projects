@@ -37,7 +37,22 @@ class Game
   end
 
   def play_turn
+    position = ask_position
+    until valid_position?(position)
+      ask_position
+    end
+  end
 
+  def ask_position
+    puts "Where do you want to play?"
+    gets.chomp
+  end
+
+  def valid_position?(position)
+    row, col = position
+    return false if row >= length || col >= length
+    return true if @grid[row][col] == :·
+    false
   end
 
   def run
