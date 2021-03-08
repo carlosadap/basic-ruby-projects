@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # 1
 class MyClass; end
 
@@ -53,8 +55,7 @@ my_object = MyClass.new
 # change attr_reader to attr_accessor
 
 class Animal
-  def initialize
-  end
+  def initialize; end
 end
 
 class Bear < Animal
@@ -67,7 +68,7 @@ end
 # 6
 module Towable
   def can_tow?
-    @weight < 4000 ? true : false
+    @weight < 4000
   end
 end
 
@@ -78,7 +79,7 @@ class Vehicle
   def self.gas_mileage(km, liters)
     puts "#{km / liters} kilometers per liter of gas"
   end
-  
+
   def self.number_of_vehicules
     puts @@number_of_vehicules
   end
@@ -121,10 +122,9 @@ end
 class MyTruck < Vehicle
   @@number_of_doors = 2
   include Towable
-  
+
   def initialize(year, color, model, weight)
     super(year, color, model)
     @weight = weight
   end
 end
-
