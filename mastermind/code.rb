@@ -1,7 +1,7 @@
 require_relative 'peg.rb'
 
 class Code
-  def initialize(code_size)
-    @pegs = (0...code_size).map { |position| Peg.new(position) }
+  def initialize(colors_array)
+    @pegs = colors_array.each_with_index.map { |color, idx| Peg.new(color, idx) }
   end
 end

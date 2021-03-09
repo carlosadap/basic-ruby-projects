@@ -1,15 +1,13 @@
 require_relative 'code.rb'
 
 class Game
+  attr_reader :secret_code, :guess_code
+
   def initialize(code_size = 4, max_turns = 12)
     @turns_code = []
     @code_size = code_size
     @max_turns = max_turns
     @colors = ['black', 'blue', 'white', 'red']
-  end
-
-  def guess_code(array_pegs)
-    core
   end
 
   def valid_guess?(array_colors)
@@ -24,13 +22,25 @@ class Game
     puts "Enter four valid colors, separated by comma"
     guess = gets.chomp.split(",")
     until valid_guess?(guess)
+      print "\n Not a valid guess \n"
       guess = ask_guess
     end
     guess
   end
 
+  def create_secret_code
+    random_colors = []
+    @code_size.times { random_colors << @colors.sample}
+    @secret_code = Code.new(random_colors)
+  end
+
+  def create_guess_code(colors_array)
+    @guess_code = Code.new(colors_array)
+  end
+
   def run
-    @secret_code = Code.new(@code_size)
+    create_secret_code
     guess = ask_guess
+    create_guess_code(guess)
   end
 end
