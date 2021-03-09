@@ -5,7 +5,7 @@ class Game
   attr_reader :players, :symbols, :board, :n_players
 
   def initialize(length, n_players = 2)
-    @players = []
+    @players = [Player.new("Carlos", :X), Player.new("Jown", :O)]
     @n_players = n_players
     @current_player
     @board = Board.new(length)
@@ -37,6 +37,7 @@ class Game
   end
 
   def play_turn
+    @board.display
     position = ask_position
     until valid_position?(position)
       ask_position
@@ -59,7 +60,7 @@ class Game
     player_creation
     @current_player = @players.sample
     @game_on = true
-    while game_on?
+    while @game_on
       play_turn
       if win?
         @game_on = false
@@ -67,3 +68,6 @@ class Game
     end
   end
 end
+
+g = Game.new(3)
+

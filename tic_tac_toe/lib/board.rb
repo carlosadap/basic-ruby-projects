@@ -15,12 +15,16 @@ class Board
   end
 
   def display
-    print "-------------\n"
-    grid.each do |col|
-      print "| "
+    print "  -------------\n"
+    grid.each_with_index do |col, idx|
+      
+      print "#{idx} | "
       col.each { |val| print "#{val} | " }
-      print "\n-------------"
+      print "\n  -------------"
       puts ""
     end
+    print " "
+    (0...grid.length).each { |num| print "   #{num}"}
+    print "\n"
   end
 end
