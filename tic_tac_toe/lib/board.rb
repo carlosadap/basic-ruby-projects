@@ -1,14 +1,15 @@
+# frozen_string_literal: true
+
 class Board
   attr_accessor :grid
 
   def initialize(length)
-    @grid = Array.new(length) { |sub_array| sub_array = Array.new(length, :·) }
-    # @grid = [[:X, :·, :·], [:·, :X, :·], [:X, :·, :X]]
+    @grid = Array.new(length) { Array.new(length, :·) }
   end
 
-  def is_pos_available?(pos)
+  def pos_available?(pos)
     row, col = pos
-    grid[row][col] == :-
+    grid[row][col] == :·
   end
 
   def size
@@ -18,14 +19,13 @@ class Board
   def display
     print "  -------------\n"
     grid.each_with_index do |col, idx|
-      
       print "#{idx} | "
       col.each { |val| print "#{val} | " }
       print "\n  -------------"
-      puts ""
+      puts ''
     end
-    print " "
-    (0...grid.length).each { |num| print "   #{num}"}
+    print ' '
+    (0...grid.length).each { |num| print "   #{num}" }
     print "\n"
   end
 
@@ -38,7 +38,7 @@ class Board
       column_arr = (0...@grid.length).map do |idx_row|
         @grid[idx_row][idx_col]
       end
-    
+
       return true if column_arr.all? { |ele| ele == symbol }
     end
 
@@ -50,14 +50,18 @@ class Board
       @grid[idx][idx]
     end
 
-    inv_diago_arr = (0...@grid.length).map do |idx|
-      @grid[@grid.length-1-idx][idx]
-    end
-
-    (diago_arr.uniq.count == 1 && diago_arr.first == symbol) || inv_diago_arr.uniq.count == 1 && inv_diago_arr.first == symbol
+    diago_arr.uniq.count == 1 && diago_arr.first == symbol
   end
 
-  def win?(symbol)    
-    win_row?(symbol) || win_column?(symbol) || win_diago?(symbol)
+  def win_inv_diago?(symbol)
+    inv_diago_arr = (0...@grid.length).map do |idx|
+      @grid[@grid.length - 1 - idx][idx]
+    end
+
+    inv_diago_arr.uniq.count == 1 && inv_diago_arr.first == symbol
+  end
+
+  def win?(symbol)
+    win_row?(symbol) || win_column?(symbol) || win_diago?(symbol) || win_inv_diago?(symbol)
   end
 end

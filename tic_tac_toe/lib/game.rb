@@ -1,40 +1,38 @@
-require_relative 'player.rb'
-require_relative 'board.rb'
+# frozen_string_literal: true
+
+require_relative 'player'
+require_relative 'board'
 
 class Game
   attr_reader :players, :symbols, :board, :n_players
 
   def initialize(length = 3, n_players = 2)
-    # @players = [Player.new("Carlos", :X), Player.new("Jown", :O)]
     @players = []
     @n_players = n_players
-    @current_player
     @board = Board.new(length)
     @game_on = false
   end
 
   def create_player
-    puts "What is the name of the player?"
+    puts 'What is the name of the player?'
     name = gets.chomp
-    puts "What the symbol of the player?"
+    puts 'What the symbol of the player?'
     symbol = gets.chomp.to_sym
-    if is_valid_symbol?(symbol)
+    if valid_symbol?(symbol)
       new_player = Player.new(name, symbol.to_sym)
       @players << new_player
       puts "The player #{name} with the symbol #{symbol} was created"
     else
-      puts "The player #{name} with the symbol #{symbol} was not created because the symbol #{symbol} already exists, try another symbol"
+      puts "The player #{name} with the symbol #{symbol} was not created. The symbol already exists, try another symbol"
     end
   end
 
-  def is_valid_symbol?(check_symbol)
+  def valid_symbol?(check_symbol)
     players.none? { |player| player.symbol == check_symbol }
   end
 
   def player_creation
-    until @players.length == n_players
-      create_player
-    end
+    create_player until @players.length == n_players
   end
 
   def play_turn
@@ -54,24 +52,25 @@ class Game
 
   def ask_position
     puts "It's #{@current_player.name}'s' turn"
-    puts "Where do you want to play? (Position separated by comma)"
-    gets.chomp.split(",").map { |ele| ele.to_i }
+    puts 'Where do you want to play? (Position separated by comma)'
+    gets.chomp.split(',').map(&:to_i)
   end
 
   def valid_position?(position)
     row, col = position
     return false if row >= @board.grid.length || col >= @board.grid.length
-    return true if @board.grid[row][col] == :·
+    return true if @board.pos_available?(position)
+
     false
   end
 
   def win?(symbol)
-    @board.win?(symbol)  
+    @board.win?(symbol)
   end
 
   def next_player
     old_idx = @players.index(@current_player)
-    new_idx = ( old_idx + 1 ) % @players.length
+    new_idx = (old_idx + 1) % @players.length
     @current_player = @players[new_idx]
   end
 
@@ -92,4 +91,3 @@ class Game
     @board.display
   end
 end
-
