@@ -4,11 +4,11 @@ require_relative 'board.rb'
 class Game
   attr_reader :players, :symbols, :board, :n_players
 
-  def initialize(length, n_players = 2)
-    @players = [Player.new("Carlos", :X), Player.new("Jown", :O)]
+  def initialize(length = 3, n_players = 2)
+    # @players = [Player.new("Carlos", :X), Player.new("Jown", :O)]
+    @players = []
     @n_players = n_players
     @current_player
-    @length = length
     @board = Board.new(length)
     @game_on = false
   end
@@ -41,24 +41,38 @@ class Game
     @board.display
     position = ask_position
     until valid_position?(position)
-      ask_position
+      puts "#{position} is not a valid position, please try again"
+      position = ask_position
     end
+    assign_play(position)
+  end
+
+  def assign_play(position)
+    row, col = position
+    @board.grid[row][col] = @current_player.symbol
   end
 
   def ask_position
-    puts "Where do you want to play? Position separated by comma"
+    puts "It's #{@current_player.name}'s' turn"
+    puts "Where do you want to play? (Position separated by comma)"
     gets.chomp.split(",").map { |ele| ele.to_i }
   end
 
   def valid_position?(position)
     row, col = position
-    return false if row >= @length || col >= @length
+    return false if row >= @board.grid.length || col >= @board.grid.length
     return true if @board.grid[row][col] == :·
     false
   end
 
   def win?(symbol)
     @board.win?(symbol)  
+  end
+
+  def next_player
+    old_idx = @players.index(@current_player)
+    new_idx = ( old_idx + 1 ) % @players.length
+    @current_player = @players[new_idx]
   end
 
   def run
@@ -69,8 +83,13 @@ class Game
       play_turn
       if win?(@current_player.symbol)
         @game_on = false
+      else
+        next_player
       end
     end
+
+    puts "Game ended, #{@current_player.name} won"
+    @board.display
   end
 end
 

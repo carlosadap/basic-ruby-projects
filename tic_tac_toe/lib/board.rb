@@ -3,6 +3,7 @@ class Board
 
   def initialize(length)
     @grid = Array.new(length) { |sub_array| sub_array = Array.new(length, :·) }
+    # @grid = [[:X, :·, :·], [:·, :X, :·], [:X, :·, :X]]
   end
 
   def is_pos_available?(pos)
