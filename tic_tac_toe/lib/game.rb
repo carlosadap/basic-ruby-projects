@@ -8,6 +8,7 @@ class Game
     @players = [Player.new("Carlos", :X), Player.new("Jown", :O)]
     @n_players = n_players
     @current_player
+    @length = length
     @board = Board.new(length)
     @game_on = false
   end
@@ -45,15 +46,19 @@ class Game
   end
 
   def ask_position
-    puts "Where do you want to play?"
-    gets.chomp
+    puts "Where do you want to play? Position separated by comma"
+    gets.chomp.split(",").map { |ele| ele.to_i }
   end
 
   def valid_position?(position)
     row, col = position
-    return false if row >= length || col >= length
-    return true if @grid[row][col] == :·
+    return false if row >= @length || col >= @length
+    return true if @board.grid[row][col] == :·
     false
+  end
+
+  def win?(symbol)
+    @board.win?(symbol)  
   end
 
   def run
@@ -62,12 +67,10 @@ class Game
     @game_on = true
     while @game_on
       play_turn
-      if win?
+      if win?(@current_player.symbol)
         @game_on = false
       end
     end
   end
 end
-
-g = Game.new(3)
 

@@ -27,4 +27,36 @@ class Board
     (0...grid.length).each { |num| print "   #{num}"}
     print "\n"
   end
+
+  def win_row?(symbol)
+    @grid.any? { |row| row.uniq.count == 1 && row.first == symbol }
+  end
+
+  def win_column?(symbol)
+    (0...@grid.length).each do |idx_col|
+      column_arr = (0...@grid.length).map do |idx_row|
+        @grid[idx_row][idx_col]
+      end
+    
+      return true if column_arr.all? { |ele| ele == symbol }
+    end
+
+    false
+  end
+
+  def win_diago?(symbol)
+    diago_arr = (0...@grid.length).map do |idx|
+      @grid[idx][idx]
+    end
+
+    inv_diago_arr = (0...@grid.length).map do |idx|
+      @grid[@grid.length-1-idx][idx]
+    end
+
+    (diago_arr.uniq.count == 1 && diago_arr.first == symbol) || inv_diago_arr.uniq.count == 1 && inv_diago_arr.first == symbol
+  end
+
+  def win?(symbol)    
+    win_row?(symbol) || win_column?(symbol) || win_diago?(symbol)
+  end
 end
