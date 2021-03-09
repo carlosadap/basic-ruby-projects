@@ -1,4 +1,4 @@
-require_relative 'peg.rb'
+require_relative 'peg'
 
 class Code
   def initialize(colors_array)

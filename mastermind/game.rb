@@ -1,4 +1,4 @@
-require_relative 'code.rb'
+require_relative 'code'
 
 class Game
   attr_reader :secret_code, :guess_code
@@ -7,20 +7,20 @@ class Game
     @turns_code = []
     @code_size = code_size
     @max_turns = max_turns
-    @colors = ['black', 'blue', 'white', 'red']
+    @colors = %w[black blue white red]
   end
 
   def valid_guess?(array_colors)
     color_match = array_colors.all? { |color| @colors.include?(color) }
     qtt_match = array_colors.length == @code_size
-    return color_match && qtt_match
+    color_match && qtt_match
   end
 
   def ask_guess
-    puts "What is your guess?"
+    puts 'What is your guess?'
     puts "Valid colors are: #{@colors}"
-    puts "Enter four valid colors, separated by comma"
-    guess = gets.chomp.split(",")
+    puts 'Enter four valid colors, separated by comma'
+    guess = gets.chomp.split(',')
     until valid_guess?(guess)
       print "\n Not a valid guess \n"
       guess = ask_guess
@@ -30,7 +30,7 @@ class Game
 
   def create_secret_code
     random_colors = []
-    @code_size.times { random_colors << @colors.sample}
+    @code_size.times { random_colors << @colors.sample }
     @secret_code = Code.new(random_colors)
   end
 

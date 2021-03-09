@@ -6,7 +6,7 @@ class Peg
     @position = position
   end
 
-  def ==(peg)
-    @color == peg.color
-  end  
+  def ==(other)
+    @color == other.color
+  end
 end
