@@ -1,6 +1,9 @@
+require_relative 'peg.rb'
+
 class Code
-  def initialize(code_size)
+  def initialize(code_size = 4)
     @pegs = [ ]
-    code_size.times { @pegs << Peg.new() }
+    @colors = ['black', 'blue', 'white', 'red']
+    code_size.times { @pegs << Peg.new(@colors.sample) }
   end
 end
