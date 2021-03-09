@@ -2,7 +2,6 @@ require_relative 'peg.rb'
 
 class Code
   def initialize(code_size)
-    @pegs = []
-    code_size.times { @pegs << Peg.new }
+    @pegs = (0...code_size).map { |position| Peg.new(position) }
   end
 end
