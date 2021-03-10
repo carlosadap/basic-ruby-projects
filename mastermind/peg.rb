@@ -6,7 +6,15 @@ class Peg
     @position = position
   end
 
-  def ==(other)
+  def same_position?(other)
+    @position == other.position
+  end
+
+  def same_color?(other)
     @color == other.color
+  end
+
+  def same_peg?(other)
+    same_color?(other) && same_position?(other)
   end
 end

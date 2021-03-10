@@ -40,7 +40,11 @@ class Game
 
   def run
     create_secret_code
-    guess = ask_guess
-    create_guess_code(guess)
+    game_over = false
+    until game_over
+      create_guess_code(ask_guess)
+      game_over = true if @guess_code == @secret_code
+      puts @secret_code.pegs
+    end
   end
 end
