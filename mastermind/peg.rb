@@ -1,5 +1,6 @@
 class Peg
-  attr_reader :color, :position
+  attr_reader :position
+  attr_accessor :color
 
   def initialize(color, position)
     @color = color

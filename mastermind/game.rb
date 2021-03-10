@@ -7,7 +7,7 @@ class Game
     @turns_code = []
     @code_size = code_size
     @max_turns = max_turns
-    @colors = %w[black blue white red]
+    @colors = %w[orange blue yellow red]
   end
 
   def valid_guess?(array_colors)
