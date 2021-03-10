@@ -20,12 +20,14 @@ class Code
 
   def count_white_pins(other)
     count = 0
-    dummy_code = [...@pegs]
-    dummy_secret_code = [...other.pegs]
+    dummy_code = @pegs.map(&:clone)
+    dummy_secret_code = other.pegs.map(&:clone)
+    #change blacks
     dummy_code.each_with_index do |peg_1, idx_1|
+      # binding.pry
       dummy_secret_code.each_with_index do |peg_2, idx_2|
         same_color = peg_1.same_color?(peg_2) && peg_1.color != 'check'
-        different_position = !peg_1.same_position?(peg_2)
+        different_position = !peg_1.same_position?(peg_2) && idx_1 != idx_2
         if same_color && different_position
           peg_1.color = 'check'
           peg_2.color = 'check'

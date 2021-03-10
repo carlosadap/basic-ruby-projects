@@ -35,16 +35,29 @@ class Game
   end
 
   def create_guess_code(colors_array)
-    @guess_code = Code.new(colors_array)
+    Code.new(colors_array)
+  end
+
+  def give_feedback(code)
+    black_pins = code.count_black_pins(@secret_code)
+    white_pins = code.count_white_pins(@secret_code)
+    puts 'Your score so far is:'
+    puts "Black pins: #{black_pins}"
+    puts "White pins: #{white_pins}"
+  end
+
+  def play_turn
+    guess = create_guess_code(ask_guess)
+    @game_on = false if guess.same_code?(@secret_code)
+    give_feedback(guess)
+    @secret_code.pegs.each { |peg| puts peg.color }
   end
 
   def run
     create_secret_code
-    game_over = false
-    until game_over
-      create_guess_code(ask_guess)
-      game_over = true if @guess_code == @secret_code
-      puts @secret_code.pegs
+    @game_on = true
+    while @game_on
+      play_turn
     end
   end
 end
