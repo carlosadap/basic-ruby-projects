@@ -58,8 +58,6 @@ class Game
   def run
     create_secret_code
     @game_on = true
-    while @game_on
-      play_turn
-    end
+    play_turn while @game_on
   end
 end

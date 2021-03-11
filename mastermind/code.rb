@@ -19,7 +19,6 @@ class Code
     [black_pins, white_pins]
   end
 
-
   def count_black_pins(other)
     count = 0
     pegs.each_with_index { |peg, idx| count += 1 if peg.same_peg?(other.pegs[idx]) }
@@ -41,15 +40,15 @@ class Code
 
   def check_white_pegs(pegs, other)
     count = 0
-    pegs.each_with_index do |peg_1, idx_1|
-      other.each_with_index do |peg_2, idx_2|
-        same_color = peg_1.same_color?(peg_2) && peg_1.color != 'blank'
-        different_position = idx_1 != idx_2
-        if same_color && different_position
-          peg_1.color = 'blank'
-          peg_2.color = 'blank'
-          count += 1
-        end
+    pegs.each_with_index do |peg1, idx1|
+      other.each_with_index do |peg2, idx2|
+        same_color = peg1.same_color?(peg2) && peg1.color != 'blank'
+        different_position = idx1 != idx2
+        next unless same_color && different_position
+
+        peg1.color = 'blank'
+        peg2.color = 'blank'
+        count += 1
       end
     end
     count
