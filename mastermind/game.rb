@@ -39,8 +39,10 @@ class Game
   end
 
   def give_feedback(code)
-    black_pins = code.count_black_pins(@secret_code)
-    white_pins = code.count_white_pins(@secret_code)
+    check_pegs = code.check_pegs(@secret_code)
+    # black_pins = code.count_black_pins(@secret_code)
+    # white_pins = code.count_white_pins(@secret_code)
+    black_pins, white_pins = check_pegs
     puts 'Your score so far is:'
     puts "Black pins: #{black_pins}"
     puts "White pins: #{white_pins}"
