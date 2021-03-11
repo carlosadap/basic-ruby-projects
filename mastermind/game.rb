@@ -3,7 +3,7 @@ require_relative 'code'
 class Game
   attr_reader :secret_code, :guess_code
 
-  def initialize(code_size = 4, max_turns = 13)
+  def initialize(code_size = 4, max_turns = 12)
     @turns_code = []
     @code_size = code_size
     @max_turns = max_turns
@@ -61,7 +61,7 @@ class Game
     @turns_code << turn_resolution(guess)
     @game_on = false if guess.same_code?(@secret_code) || out_of_turns
     display_guesses
-    @secret_code.pegs.each { |peg| puts peg.color }
+    # @secret_code.pegs.each { |peg| puts peg.color }
   end
 
   def out_of_turns
