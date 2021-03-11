@@ -48,7 +48,11 @@ class Game
   end
 
   def display_guesses
-
+    puts "Your guesses so far:"
+    @turns_code.each do |code|
+      code.pegs.each { |peg| print "#{peg.color}\t" }
+      puts ""
+    end
   end
 
   def play_turn
@@ -67,7 +71,7 @@ class Game
     create_secret_code
     @game_on = true
     play_turn while @game_on
-    puts "You just made the max number of attempts #{@max_turns} and didn't find the secret code" if out_of_turns
+    puts "You just made the max number of attempts (#{@max_turns}) and didn't find the secret code" if out_of_turns
     puts "You won!"
   end
 end
