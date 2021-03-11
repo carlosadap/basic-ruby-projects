@@ -3,7 +3,7 @@ require_relative 'code'
 class Game
   attr_reader :secret_code, :guess_code
 
-  def initialize(code_size = 4, max_turns = 2)
+  def initialize(code_size = 4, max_turns = 13)
     @turns_code = []
     @code_size = code_size
     @max_turns = max_turns
@@ -38,28 +38,29 @@ class Game
     Code.new(colors_array)
   end
 
-  def give_feedback(code)
-    check_pegs = code.check_pegs(@secret_code)
-    black_pins, white_pins = check_pegs
-    puts 'Your score so far is:'
-    puts "Black pins: #{black_pins}"
-    puts "White pins: #{white_pins}"
-    display_guesses
+  def remaining_turns
+    "Remaining turns: #{@max_turns-@turns_code.length}\n"
   end
 
   def display_guesses
-    puts "Your guesses so far:"
-    @turns_code.each do |code|
-      code.pegs.each { |peg| print "#{peg.color}\t" }
-      puts ""
+    print remaining_turns
+    print "Your guesses so far:\n"
+    @turns_code.each do |turn|
+      turn[:guess].pegs.each { |peg| print "#{peg.color}\t " }
+      print "  | Black pins: #{turn[:black_pins]} - White pins: #{turn[:white_pins]}\n\n"
     end
+  end
+
+  def turn_resolution(guess)
+    black_pins, white_pins = guess.check_pegs(@secret_code)
+    { guess: guess, black_pins: black_pins, white_pins: white_pins }
   end
 
   def play_turn
     guess = create_guess_code(ask_guess)
-    @turns_code << guess
+    @turns_code << turn_resolution(guess)
     @game_on = false if guess.same_code?(@secret_code) || out_of_turns
-    give_feedback(guess)
+    display_guesses
     @secret_code.pegs.each { |peg| puts peg.color }
   end
 
@@ -71,7 +72,7 @@ class Game
     create_secret_code
     @game_on = true
     play_turn while @game_on
-    puts "You just made the max number of attempts (#{@max_turns}) and didn't find the secret code" if out_of_turns
+    puts "You just made the max number of attempts (#{@max_turns}) and didn't find the secret code #{@secret_code}" if out_of_turns
     puts "You won!"
   end
 end
