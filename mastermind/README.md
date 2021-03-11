@@ -23,4 +23,29 @@ Build a Mastermind game from the command line where you have 12 turns to guess t
 7. Post your solution below!
 
 ---
+
+## How to play
+
+### Basic instructions
+
+1. Open your favorite ruby REPL (pry)
+
+2. load the game file (load 'game.rb')
+
+3. Create you game instance (g = Game.new)
+
+4. Run the game (g.run)
+
+5. Have fun!
+
+### Getting schwifty
+
+- If you want more challenge, you can change the number of pegs and the number of turns by initializing the game with 'Game.new(number_of_pegs, max_turns)'.
+
+- The available colors can be tweeked by changing (adding more words) the line 10 of the game.rb file. Don't use 'blank' as a color.
+
+- You can enter the 'debugging mode' by uncommenting the line 64 of the game.rb, this will show you the secret_code.
+
+---
+
 This project is a part of [The Odin Project](https://www.theodinproject.com/courses/ruby-programming/lessons/mastermind)
