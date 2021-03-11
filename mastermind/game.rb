@@ -39,7 +39,7 @@ class Game
   end
 
   def remaining_turns
-    "Remaining turns: #{@max_turns-@turns_code.length}\n"
+    "Remaining turns: #{@max_turns - @turns_code.length}\n"
   end
 
   def display_guesses
@@ -68,11 +68,15 @@ class Game
     @turns_code.length >= @max_turns
   end
 
+  def display_lose_message
+    puts "You just made the max number of attempts (#{@max_turns}) and didn't find the secret code #{@secret_code}"
+  end
+
   def run
     create_secret_code
     @game_on = true
     play_turn while @game_on
-    puts "You just made the max number of attempts (#{@max_turns}) and didn't find the secret code #{@secret_code}" if out_of_turns
-    puts "You won!"
+    display_lose_message if out_of_turns
+    puts 'You won!'
   end
 end
