@@ -16,3 +16,14 @@ def fibs_rec(num)
   fibs_array << (fibs_array[num - 2] + fibs_array[num - 3])
   fibs_array
 end
+
+def merge_sort(array)
+  return array if array.length < 2
+
+  pivot = array.first
+
+  left_side = array.drop(1).select { |ele| ele <= pivot }
+  right_side = array.drop(1).select { |ele| ele > pivot }
+
+  merge_sort(left_side) + [pivot] + merge_sort(right_side)
+end
